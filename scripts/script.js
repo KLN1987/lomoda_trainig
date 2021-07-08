@@ -1,6 +1,4 @@
 const headerCityButton = document.querySelector('.header__city-button');
-const navigationLink = document.querySelectorAll('.navigation__link');
-const goodsTitle = document.querySelector('.goods__title');
 
 let hash = location.hash.substring(1);
 
@@ -98,6 +96,13 @@ try {
      throw 'This is not a goods page!'
    }
 
+   const goodsTitle = document.querySelector('.goods__title');
+
+   const changeTitle = () => {
+     goodsTitle.textContent = document.querySelector(`[href*="#${hash}"]`).textContent;
+
+   }
+
    const createCard = ({ id, preview, cost, brand, name, sizes }) => {
 
     //короткий вариант сверху
@@ -142,9 +147,11 @@ try {
 
    window.addEventListener('hashchange', (event) => {
     hash = location.hash.substring(1);
+    changeTitle();
     getGoods(renderGoodsList, hash, 'category');
   });
 
+   changeTitle();
    getGoods(renderGoodsList, hash, 'category');
 
 } catch (err) {
@@ -227,10 +234,4 @@ cartOverlay.addEventListener('click', event => {
   if (target.matches('.cart__btn-close') || target.matches('.cart-overlay')) {
     cartModalClose();
   }
-});
-
-navigationLink.forEach (item => {
-  item.addEventListener('click', () => {
-    goodsTitle.textContent = item.textContent; 
-  });
 });
